@@ -1,12 +1,27 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 android {
     namespace 'com.hemdan.data'
     compileSdk 32
+
+    buildTypes {
+        debug {
+            buildConfigField "String", "BASE_URL", "\"https://integrations-cko.herokuapp.com/\""
+        }
+        release {
+            buildConfigField "String", "BASE_URL", "\"https://integrations-cko.herokuapp.com/\""
+        }
+    }
 }
+
 dependencies {
-
-
+    implementation project(":domain")
+    implementation(Network.retrofit)
+    implementation(Network.moshiConverter)
+    implementation "com.google.dagger:hilt-android:$dagger_version"
+    kapt "com.google.dagger:hilt-android-compiler:$dagger_version"
 }
