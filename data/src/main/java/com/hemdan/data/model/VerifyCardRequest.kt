@@ -1,21 +1,19 @@
 package com.hemdan.data.model
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
-@JsonClass(generateAdapter = true)
 data class VerifyCardRequest(
-    @Json(name = "cvv")
+    @SerializedName("cvv")
     val cvv: String,
-    @Json(name = "expiry_month")
+    @SerializedName("expiry_month")
     val expiryMonth: String,
-    @Json(name = "expiry_year")
+    @SerializedName("expiry_year")
     val expiryYear: String,
-    @Json(name = "failure_url")
+    @SerializedName("failure_url")
     val failureUrl: String,
-    @Json(name = "number")
+    @SerializedName("number")
     val number: String,
-    @Json(name = "success_url")
+    @SerializedName("success_url")
     val successUrl: String
 )

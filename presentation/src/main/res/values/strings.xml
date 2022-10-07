@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_card_number">Card Number</string>
+    <string name="app_card_expiry_date">Expiry date</string>
+    <string name="app_card_cvv">CVV</string>
+    <string name="app_pay">Pay</string>
+</resources>

@@ -7,8 +7,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -21,14 +22,22 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideOkHttp(): OkHttpClient =
-        OkHttpClient
-            .Builder()
-            .build()
+        if (BuildConfig.DEBUG) {
+            val loggingInterceptor = HttpLoggingInterceptor()
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+            OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build()
+        } else {
+            OkHttpClient
+                .Builder()
+                .build()
+        }
 
     @Singleton
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient, baseUrl: String): Retrofit = Retrofit.Builder()
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
         .baseUrl(baseUrl)
         .client(okHttpClient)
         .build()

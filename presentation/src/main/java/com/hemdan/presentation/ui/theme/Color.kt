@@ -1,4 +1,4 @@
-package com.hemdan.checkout.ui.theme
+package com.hemdan.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

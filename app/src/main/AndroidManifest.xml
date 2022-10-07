@@ -14,7 +14,7 @@
         android:theme="@style/Theme.CheckOut"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name="com.hemdan.presentation.ui.CheckoutDemoActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.CheckOut">
