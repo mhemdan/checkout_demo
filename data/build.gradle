@@ -21,9 +21,14 @@ android {
 dependencies {
     implementation project(":domain")
     implementation(Network.retrofit)
-//    implementation(Network.moshiConverter)
     implementation(Network.gsonConverter)
     implementation(Network.loggingInterceptor)
-    implementation "com.google.dagger:hilt-android:$dagger_version"
-    kapt "com.google.dagger:hilt-android-compiler:$dagger_version"
+    implementation Libs.dagger
+    kapt Libs.daggerCompiler
+
+    testImplementation(TestLibs.junit4)
+    testImplementation(TestLibs.mockk)
+    testImplementation(TestLibs.assertJ)
+    testImplementation(TestLibs.fixture)
+    testImplementation(TestLibs.coroutines)
 }

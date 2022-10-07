@@ -45,8 +45,8 @@ android {
 
 dependencies {
 
-    implementation(General.androidXCore)
-    implementation(General.androidXLifecycleRuntime)
+    implementation(Libs.androidXCore)
+    implementation(Libs.androidXLifecycleRuntime)
     implementation(Compose.activity)
     implementation(Compose.ui)
     implementation(Compose.preview)
@@ -58,10 +58,13 @@ dependencies {
     implementation project(":domain")
 
     //dagger
-    implementation "com.google.dagger:hilt-android:$dagger_version"
-    kapt "com.google.dagger:hilt-android-compiler:$dagger_version"
-    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+    implementation Libs.dagger
+    kapt Libs.daggerCompiler
+    implementation Libs.daggerComposeNavigation
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+    implementation Libs.coroutinesCore
 
+    testImplementation(TestLibs.junit4)
+    testImplementation(TestLibs.mockk)
+    testImplementation(TestLibs.assertJ)
 }

@@ -24,12 +24,11 @@ class CheckoutDemoActivity : ComponentActivity() {
             CheckOutTheme {
                 val navController = rememberNavController()
                 BackHandler(enabled = true, onBack = {
-                    navController.navigateUp()
+                    navController.popBackStack(route = "cardSubmit", inclusive = true)
                 })
                 NavHost(navController = navController, startDestination = "cardSubmit") {
                     composable("cardSubmit") {
                         CardSubmitScreen(onNavigateToVerify = { url ->
-                            Log.d("Navigation#", "1")
                             navController.navigate(
                                 "cardVerify?url=$url"
                             )
@@ -41,7 +40,6 @@ class CheckoutDemoActivity : ComponentActivity() {
                                 CardVerifyScreen(
                                     url = it,
                                     onNavigateToSubmitResult = { isSubmittedSuccessfully ->
-                                        Log.d("Navigation#", "2")
                                         navController.navigate(
                                             route = "cardSubmitResult?isSuccess=$isSubmittedSuccessfully"
                                         ) {
