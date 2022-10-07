@@ -1,6 +1,8 @@
 package com.hemdan.domain.usecase
 
-import com.hemdan.domain.*
+import com.hemdan.domain.DispatcherProvider
+import com.hemdan.domain.FAILURE_CALLBACK_URL
+import com.hemdan.domain.SUCCESS_CALLBACK_URL
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -11,10 +13,10 @@ class CardVerifyUseCase @Inject constructor(
         return withContext(dispatcherProvider.io()) {
             try {
                 val isSubmitted =
-                    if (url.contains(SUCCESS)) {
+                    if (url.contains(SUCCESS_CALLBACK_URL)) {
                         true
                     } else if (url.contains(
-                            FAILURE
+                            FAILURE_CALLBACK_URL
                         )
                     ) {
                         false

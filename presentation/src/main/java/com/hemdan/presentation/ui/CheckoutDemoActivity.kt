@@ -1,13 +1,10 @@
 package com.hemdan.presentation.ui
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable

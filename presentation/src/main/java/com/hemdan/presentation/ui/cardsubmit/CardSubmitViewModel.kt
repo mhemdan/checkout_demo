@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hemdan.domain.model.CardInfo
 import com.hemdan.domain.usecase.CardSubmitUseCase
+import com.hemdan.presentation.ui.utils.Validator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -12,7 +13,10 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class CardSubmitViewModel @Inject constructor(private val cardVerifyUseCase: CardSubmitUseCase) :
+class CardSubmitViewModel @Inject constructor(
+    private val cardVerifyUseCase: CardSubmitUseCase,
+    private val validator: Validator
+) :
     ViewModel() {
 
     private val _viewState = MutableStateFlow<ViewState>(ViewState.Idle)
@@ -20,6 +24,14 @@ class CardSubmitViewModel @Inject constructor(private val cardVerifyUseCase: Car
 
     fun verifyCard(cardNumber: String, expiryDate: String, cvv: String) {
         viewModelScope.launch {
+            if (!validator.isValidCardNumber(cardNumber)) {
+                _viewState.update {
+                    ViewState.CardNumberError
+                }
+
+                return@launch
+            }
+
             _viewState.update {
                 ViewState.Loading
             }
@@ -38,17 +50,20 @@ class CardSubmitViewModel @Inject constructor(private val cardVerifyUseCase: Car
                 }
                 is CardSubmitUseCase.CardSubmitResult.Error -> {
                     _viewState.update {
-                        ViewState.Error
+                        ViewState.SubmitError
                     }
                 }
             }
         }
     }
 
+    sealed interface Error
     sealed class ViewState {
         object Idle : ViewState()
         object Loading : ViewState()
         data class Success(val url: String) : ViewState()
-        object Error : ViewState()
+        object CardNumberError : ViewState(), Error
+        object SubmitError : ViewState(), Error
+
     }
 }

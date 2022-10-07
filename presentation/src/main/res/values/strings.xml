@@ -4,4 +4,6 @@
     <string name="app_card_expiry_date">Expiry date</string>
     <string name="app_card_cvv">CVV</string>
     <string name="app_pay">Pay</string>
+    <string name="general_error">There is unexpected error, you can try again later.</string>
+    <string name="app_invalid_card_number_error">Please enter a valid card number and submit again.</string>
 </resources>
