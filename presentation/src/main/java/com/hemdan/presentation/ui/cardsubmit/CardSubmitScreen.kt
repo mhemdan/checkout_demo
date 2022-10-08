@@ -92,7 +92,7 @@ fun CardSubmitScreen(
                     onClick = {
                         focusManager.clearFocus()
                         if (viewState !is CardSubmitViewModel.ViewState.Loading)
-                            viewModel.verifyCard(
+                            viewModel.submitCard(
                                 cardNumber = cardNumber.text,
                                 expiryDate = expiryDate.text,
                                 cvv = cvv.text

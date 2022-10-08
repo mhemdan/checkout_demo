@@ -22,7 +22,7 @@ class CardSubmitViewModel @Inject constructor(
     private val _viewState = MutableStateFlow<ViewState>(ViewState.Idle)
     val viewState = _viewState
 
-    fun verifyCard(cardNumber: String, expiryDate: String, cvv: String) {
+    fun submitCard(cardNumber: String, expiryDate: String, cvv: String) {
         viewModelScope.launch {
             if (!validator.isValidCardNumber(cardNumber)) {
                 _viewState.update {

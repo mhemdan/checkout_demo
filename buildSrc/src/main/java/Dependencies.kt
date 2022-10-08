@@ -27,6 +27,7 @@ object TestLibs {
     const val assertJ = "org.assertj:assertj-core:3.18.1"
     const val fixture = "com.appmattus.fixture:fixture:1.2.0"
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+    const val turbine = "app.cash.turbine:turbine:0.11.0"
 }
 
 object Network {

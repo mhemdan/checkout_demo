@@ -67,4 +67,7 @@ dependencies {
     testImplementation(TestLibs.junit4)
     testImplementation(TestLibs.mockk)
     testImplementation(TestLibs.assertJ)
+    testImplementation(TestLibs.fixture)
+    testImplementation(TestLibs.coroutines)
+    testImplementation(TestLibs.turbine)
 }
