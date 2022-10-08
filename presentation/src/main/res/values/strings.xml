@@ -6,4 +6,6 @@
     <string name="app_pay">Pay</string>
     <string name="general_error">There is unexpected error, you can try again later.</string>
     <string name="app_invalid_card_number_error">Please enter a valid card number and submit again.</string>
+    <string name="app_payment_success">Payment Completed :) </string>
+    <string name="app_payment_failed">Payment Filed :( </string>
 </resources>
