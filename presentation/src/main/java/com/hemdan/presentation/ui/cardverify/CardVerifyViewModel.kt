@@ -20,7 +20,7 @@ class CardVerifyViewModel @Inject constructor(private val cardVerifyUseCase: Car
     fun checkCallbackUrl(url: String) {
         viewModelScope.launch {
             when (val result = cardVerifyUseCase(url)) {
-                is CardVerifyUseCase.CardVerifyResult.Success -> {
+                is CardVerifyUseCase.CardVerifyResult.SubmitState -> {
                     if(result.isSubmitted == true) {
                         _viewState.update {
                             ViewState.NavigateToSuccessScreen
