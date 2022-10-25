@@ -6,7 +6,7 @@ import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import kotlin.math.absoluteValue
 
-class CardNumberMask : MaskVisualTransformation("#### #### #### ####")
+class CardNumberMask(mask: String) : MaskVisualTransformation(mask)
 class ExpirationDateMask : MaskVisualTransformation("##/##")
 
 open class MaskVisualTransformation(private val mask: String) : VisualTransformation {

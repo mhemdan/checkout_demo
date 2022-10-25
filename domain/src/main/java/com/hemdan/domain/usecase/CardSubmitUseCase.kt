@@ -6,10 +6,23 @@ import com.hemdan.domain.repository.CardSubmitRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+/**
+ * Card submit use case
+ *
+ * @property dispatcherProvider
+ * @property repository
+ * @constructor Create empty Card submit use case
+ */
 class CardSubmitUseCase @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val repository: CardSubmitRepository
 ) {
+    /**
+     * Invoke
+     *
+     * @param cardInfo
+     * @return CardSubmitResult with success or error
+     */
     suspend operator fun invoke(cardInfo: CardInfo): CardSubmitResult {
         return withContext(dispatcherProvider.io()) {
             try {
@@ -20,8 +33,26 @@ class CardSubmitUseCase @Inject constructor(
         }
     }
 
+    /**
+     * Card submit result
+     *
+     * @constructor Create empty Card submit result
+     */
     sealed class CardSubmitResult {
+        /**
+         * Success
+         *
+         * @property url
+         * @constructor Create Success with url
+         */
         data class Success(val url: String) : CardSubmitResult()
+
+        /**
+         * Error
+         *
+         * @property e which is an exception
+         * @constructor Create Error with exception
+         */
         data class Error(val e: Exception) : CardSubmitResult()
     }
 }

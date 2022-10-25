@@ -17,6 +17,7 @@ import com.hemdan.presentation.R
 import com.hemdan.presentation.ui.utils.CardNumberMask
 import com.hemdan.presentation.ui.utils.DotsLoadingAnimation
 import com.hemdan.presentation.ui.utils.ExpirationDateMask
+import com.hemdan.presentation.ui.utils.Visa
 
 @Composable
 fun CardSubmitScreen(
@@ -32,8 +33,13 @@ fun CardSubmitScreen(
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val generalErrorValue = stringResource(id = R.string.general_error)
     val cardNumberError = stringResource(id = R.string.app_invalid_card_number_error)
-    Scaffold(scaffoldState = scaffoldState) {
 
+    val cardType =
+        if (viewState is CardSubmitViewModel.ViewState.CurrentCardType) {
+            (viewState as CardSubmitViewModel.ViewState.CurrentCardType).card
+        } else Visa()
+
+    Scaffold(scaffoldState = scaffoldState) {
         Box(
             Modifier
                 .padding(paddingValues = it)
@@ -42,17 +48,22 @@ fun CardSubmitScreen(
             contentAlignment = Alignment.Center
         ) {
             Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                    visualTransformation = CardNumberMask(),
+                    visualTransformation = CardNumberMask(cardType.mask),
                     value = cardNumber,
                     isError = viewState is CardSubmitViewModel.ViewState.CardNumberError,
-                    onValueChange = { value -> cardNumber = value.copy(value.text.take(16)) },
+                    onValueChange = { value ->
+                        if (value.text.length == 2) {
+                            viewModel.getCardType(value.text)
+                        }
+                        cardNumber = value.copy(value.text.take(cardType.digitCount))
+                    },
                     label = {
                         Text(text = stringResource(R.string.app_card_number))
-                    })
+                    }
+                )
 
                 Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     OutlinedTextField(
@@ -64,7 +75,8 @@ fun CardSubmitScreen(
                             expiryDate = if (value.text.length == 1 && value.text.toInt() > 1) {
                                 val newValue = "0${value.text}"
                                 value.copy(
-                                    newValue, selection = TextRange(newValue.length)
+                                    newValue,
+                                    selection = TextRange(newValue.length)
                                 )
                             } else {
                                 value.copy(value.text.take(4))
@@ -72,18 +84,20 @@ fun CardSubmitScreen(
                         },
                         label = {
                             Text(text = stringResource(R.string.app_card_expiry_date))
-                        })
+                        }
+                    )
 
                     OutlinedTextField(
                         modifier = Modifier.weight(1.0f),
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         value = cvv,
                         onValueChange = { value ->
-                            cvv = value.copy(value.text.take(3))
+                            cvv = value.copy(value.text.take(cardType.cvvLength))
                         },
                         label = {
                             Text(text = stringResource(R.string.app_card_cvv))
-                        })
+                        }
+                    )
                 }
 
                 Button(
@@ -91,13 +105,15 @@ fun CardSubmitScreen(
                     enabled = cardNumber.text.isNotEmpty() && expiryDate.text.isNotEmpty() && cvv.text.isNotEmpty(),
                     onClick = {
                         focusManager.clearFocus()
-                        if (viewState !is CardSubmitViewModel.ViewState.Loading)
+                        if (viewState !is CardSubmitViewModel.ViewState.Loading) {
                             viewModel.submitCard(
                                 cardNumber = cardNumber.text,
                                 expiryDate = expiryDate.text,
                                 cvv = cvv.text
                             )
-                    }) {
+                        }
+                    }
+                ) {
                     if (viewState is CardSubmitViewModel.ViewState.Loading) {
                         DotsLoadingAnimation()
                     } else {
@@ -124,7 +140,6 @@ fun CardSubmitScreen(
             else -> {
 //    no-op
             }
-
         }
     }
 }
